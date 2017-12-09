@@ -6,6 +6,16 @@
     <script>
       let board = new Board(document.body.clientHeight, document.body.clientWidth, 1)
       document.body.appendChild(board.div)
+      
+      function load(base64) {
+        document.body.removeChild(board.div)
+        board = new Board(document.body.clientHeight, document.body.clientWidth, 1, [atob(base64)])
+        document.body.appendChild(board.div)
+      }
+
+      function save() {
+        return btoa(board.toString())
+      }
     </script>
   </body>
 </html>
