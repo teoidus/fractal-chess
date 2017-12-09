@@ -105,6 +105,12 @@ class Board {
             d.style.backgroundColor = HOVER
             d.selected = undefined
             d.board.selected = undefined
+          } else if (d.board.selected !== undefined) { // piece is being captured
+            d.board.selected.style.left = d.style.left
+            d.board.selected.style.top  = d.style.top
+            d.board.selected.selected = undefined
+            d.board.selected = undefined
+            d.board.div.removeChild(d)
           } else {
             d.style.backgroundColor = SELECT
             d.selected = true
