@@ -1,5 +1,8 @@
 const DIM_OPACITY = 0.5
 const LIT_OPACITY = 1
+const HOVER = '#77CC77'
+const SELECT = '#33AA33'
+const NONE = 'transparent'
 let shades = ['rgb(240, 217, 181)', 'rgb(181, 136, 99)']
 
 class Board {
@@ -36,6 +39,16 @@ class Board {
         d.style.left = l + file*w/8
         d.style.top  = (7-rank)*height/8
         d.style.backgroundColor = shades[(file*9+(7-rank))%2]
+        d.board = this
+        // handle clicks (if board.selecting, then move whatever was selected to clicked sq)
+        d.onclick = function() {
+          if (d.board.selected !== undefined) {
+            d.board.selected.style.left = d.style.left
+            d.board.selected.style.top  = d.style.top
+            d.board.selected.selected = undefined
+            d.board.selected = undefined
+          }
+        }
         this.squares.push(d)
         this.div.appendChild(d)
       }
@@ -76,17 +89,31 @@ class Board {
 
         // handle various events
         d.focus = function(event) {
-          d.style.backgroundColor = '#77CC77'
+          d.style.backgroundColor = HOVER
           if (d.child !== undefined) // focus child board, if it exists
             d.child.focus()
         }
         d.blur = function(event) {
-          d.style.backgroundColor = 'transparent'
-          if (d.child !== undefined)
-            d.child.blur()
+          if (d.selected === undefined) {
+            d.style.backgroundColor = NONE
+            if (d.child !== undefined)
+              d.child.blur()
+          }
+        }
+        d.select = function(event) {
+          if (d.selected !== undefined) {
+            d.style.backgroundColor = HOVER
+            d.selected = undefined
+            d.board.selected = undefined
+          } else {
+            d.style.backgroundColor = SELECT
+            d.selected = true
+            d.board.selected = d
+          }
         }
         d.onmouseenter = d.focus
         d.onmouseleave = d.blur
+        d.onclick = d.select
 
         this.div.appendChild(d)
       }
