@@ -1,9 +1,11 @@
 <html>
   <head>
     <script src="board.js"></script>
+    <input id="savestr" style="opacity:0"></input>
   </head>
   <body style="overflow:hidden">
     <script>
+      let input = document.getElementById('savestr')
       let board = new Board(document.body.clientHeight, document.body.clientWidth, 1)
       document.body.appendChild(board.div)
       
@@ -15,6 +17,22 @@
 
       function save() {
         return btoa(board.toString())
+      }
+
+      document.body.onkeydown = function(event) {
+        switch (event.keyCode) {
+          case 83: // S
+            input.value = save()
+            input.select()
+            document.execCommand('copy')
+            alert('Save string copied to clipboard.')
+            return false
+          case 76: // L
+            let s = prompt('Paste save string:', '')
+            if (s !== null && s !== '')
+              load(s)
+            return false
+        }
       }
     </script>
   </body>
