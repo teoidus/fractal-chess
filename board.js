@@ -14,7 +14,7 @@ class Board {
     let self = this
     this.div.onmouseenter = function() {
       self.focus()
-      if (parent !== undefined)
+      if (parent !== undefined) // focus parent piece, if it exists
         parent.focus()
     }
     this.div.onmouseleave = function() {
@@ -77,7 +77,7 @@ class Board {
         // handle various events
         d.focus = function(event) {
           d.style.backgroundColor = '#77CC77'
-          if (d.child !== undefined)
+          if (d.child !== undefined) // focus child board, if it exists
             d.child.focus()
         }
         d.blur = function(event) {
