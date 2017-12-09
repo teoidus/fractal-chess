@@ -110,6 +110,8 @@ class Board {
             d.board.selected.style.top  = d.style.top
             d.board.selected.selected = undefined
             d.board.selected = undefined
+            // kill off all children
+            d.child.suicide()
             d.board.div.removeChild(d)
           } else {
             d.style.backgroundColor = SELECT
@@ -138,5 +140,9 @@ class Board {
       this.squares[i].style.opacity = DIM_OPACITY
     for (let i = 0; i < this.pieces.length; ++i)
       this.pieces[i].style.opacity = DIM_OPACITY
+  }
+
+  suicide() {
+    this.div.parentElement.removeChild(this.div)
   }
 }
