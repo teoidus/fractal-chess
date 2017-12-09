@@ -1,5 +1,6 @@
 const DIM_OPACITY = 0.5
 const LIT_OPACITY = 1
+const DEAD_OPACITY = 0.2
 const HOVER = '#77CC77'
 const SELECT = '#33AA33'
 const NONE = 'transparent'
@@ -144,6 +145,7 @@ class Board {
   }
 
   suicide() {
-    this.div.parentElement.removeChild(this.div)
+    this.div.style.opacity = DEAD_OPACITY
+    //this.div.parentElement.removeChild(this.div)
   }
 }
