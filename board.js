@@ -28,8 +28,8 @@ class Board {
 
     // populate root
     this.squares = []
-    let l = depth === 0 ? 0 : width/4
-    let w = depth === 0 ? width : width/2
+    let l = depth === 0 ? 0 : width/3
+    let w = depth === 0 ? width : width/3
     for (let rank = 0; rank < 8; ++rank) {
       for (let file = 0; file < 8; ++file) {
         let d = document.createElement('div')
@@ -78,8 +78,8 @@ class Board {
         if (depth !== 0) {
           let compressedRank = [0,1,0,0,0,0,2,3][rank]
           let b = (file < 4) ?
-            new Board(height/4, width/16, depth-1, flip, d, (3-compressedRank)*height/4, file*width/16) :
-            new Board(height/4, width/16, depth-1, flip, d, (3-compressedRank)*height/4, 3*width/4+(file-4)*width/16)
+            new Board(height/4, width/12, depth-1, flip, d, (3-compressedRank)*height/4, file*width/12) :
+            new Board(height/4, width/12, depth-1, flip, d, (3-compressedRank)*height/4, 2*width/3+(file-4)*width/12)
           b.blur()
           this.children.push(b)
           this.div.appendChild(b.div)
