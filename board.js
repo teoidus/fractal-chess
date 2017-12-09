@@ -111,7 +111,8 @@ class Board {
             d.board.selected.selected = undefined
             d.board.selected = undefined
             // kill off all children
-            d.child.suicide()
+            if (d.child !== undefined)
+              d.child.suicide()
             d.board.div.removeChild(d)
           } else {
             d.style.backgroundColor = SELECT
