@@ -6,8 +6,10 @@
   <body style="overflow:hidden">
     <script>
       let input = document.getElementById('savestr')
+      let ply = 0
       let board = new Board(document.body.clientHeight, document.body.clientWidth, 1)
       document.body.appendChild(board.div)
+      let snapshots = [save()]
       
       function load(base64) {
         document.body.removeChild(board.div)
@@ -20,6 +22,7 @@
       }
 
       document.body.onkeydown = function(event) {
+        let newPly = 0
         switch (event.keyCode) {
           case 83: // S
             input.value = save()
@@ -32,6 +35,30 @@
             if (s !== null && s !== '')
               load(s)
             return false
+          case 37: // left
+            console.log('left')
+            newPly = Math.max(ply - 1, 0)
+            console.log(ply, newPly)
+            if (newPly != ply) {
+              load(snapshots[newPly])
+              ply = newPly
+            }
+            return false
+          case 39: // right
+            newPly = Math.min(ply + 1, snapshots.length - 1)
+            console.log(ply, newPly)
+            if (newPly != ply) {
+              load(snapshots[newPly])
+              ply = newPly
+            }
+            return false
+        }
+      }
+
+      document.body.onclick = function() {
+        let snapshot = save()
+        if (snapshot !== snapshots[ply]) {
+          snapshots[++ply] = save()
         }
       }
     </script>
