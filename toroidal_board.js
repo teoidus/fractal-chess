@@ -68,14 +68,14 @@ class Board {
         }
       } else {
         let ranks = [
-          ['wr', 'wn', 'wb', 'wq', 'wk', 'wb', 'wn', 'wr'],
-          ['wp', 'wp', 'wp', 'wp', 'wp', 'wp', 'wp', 'wp'],
-          ['ee', 'ee', 'ee', 'ee', 'ee', 'ee', 'ee', 'ee'],
-          ['ee', 'ee', 'ee', 'ee', 'ee', 'ee', 'ee', 'ee'],
-          ['ee', 'ee', 'ee', 'ee', 'ee', 'ee', 'ee', 'ee'],
-          ['ee', 'ee', 'ee', 'ee', 'ee', 'ee', 'ee', 'ee'],
-          ['bp', 'bp', 'bp', 'bp', 'bp', 'bp', 'bp', 'bp'],
-          ['br', 'bn', 'bb', 'bq', 'bk', 'bb', 'bn', 'br']
+          ['wr', 'ee', 'wb', 'ee', 'ee', 'wb', 'ee', 'wr'],
+          ['wp', 'wp', 'ee', 'ee', 'ee', 'ee', 'wp', 'wp'],
+          ['wn', 'ee', 'wp', 'wq', 'wk', 'wp', 'ee', 'wn'],
+          ['ee', 'ee', 'ee', 'wp', 'wp', 'ee', 'ee', 'ee'],
+          ['ee', 'ee', 'ee', 'bp', 'bp', 'ee', 'ee', 'ee'],
+          ['bn', 'ee', 'bp', 'bq', 'bk', 'bp', 'ee', 'bn'],
+          ['bp', 'bp', 'ee', 'ee', 'ee', 'ee', 'bp', 'bp'],
+          ['br', 'ee', 'bb', 'ee', 'ee', 'bb', 'ee', 'br']
         ]
         let j = 0
         for (let rank = 0; rank < 8; ++rank) {
