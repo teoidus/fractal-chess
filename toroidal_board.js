@@ -6,6 +6,7 @@ class Board {
   constructor(height, width, stateRef = [undefined], left = 0, top = 0) {
     this.parent = parent
     this.div = document.createElement('div')
+    width = height = Math.min(width, height)
     this.div.style.height = height
     this.div.style.width = width
     this.div.style.position = 'absolute'
