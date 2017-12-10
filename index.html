@@ -3,17 +3,17 @@
     <script src="board.js"></script>
     <input id="savestr" style="opacity:0"></input>
   </head>
-  <body style="">
+  <body style="overflow:hidden">
     <script>
       let input = document.getElementById('savestr')
       let ply = 0
-      let board = new Board(document.body.clientHeight * 0.8, document.body.clientWidth * 0.8, 1)
+      let board = new Board(document.body.clientHeight, document.body.clientWidth, 1)
       document.body.appendChild(board.div)
       let snapshots = [save()]
       
       function load(base64) {
         document.body.removeChild(board.div)
-        board = new Board(document.body.clientHeight * 0.8, document.body.clientWidth * 0.8, 1, [atob(base64)])
+        board = new Board(document.body.clientHeight, document.body.clientWidth, 1, [atob(base64)])
         document.body.appendChild(board.div)
       }
 
