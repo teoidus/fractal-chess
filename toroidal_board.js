@@ -18,7 +18,7 @@ class Board {
     for (let i = 0; i < 4; ++i) {
       this.quadrants[i].style.left = width/2 * (i%2)
       this.quadrants[i].style.top  = height/2 * Math.floor(i/2)
-      this.quadrants[i].style.position = 'absolute'
+      this.quadrants[i].style.position = 'absolute'	
       this.div.appendChild(this.quadrants[i])
       for (let rank = 0; rank < 8; ++rank) {
         for (let file = 0; file < 8; ++file) {
@@ -130,7 +130,7 @@ class Board {
         }
       }
       d.suicide = function() {
-        d.board.div.removeChild(d)
+        d.parentElement.removeChild(d)
         d.dead = true
       }
       d.select = function(event) {
@@ -143,8 +143,9 @@ class Board {
             d.board.selected.style.left = d.style.left
             d.board.selected.style.top  = d.style.top
             for (let k = 1; k < 4; ++k) {
-              d.board.pieces[j + 32*k].style.left = d.style.left
-              d.board.pieces[j + 32*k].style.top  = d.style.top
+              d.board.pieces[d.board.selected.i + 32*k].style.left = d.style.left
+              d.board.pieces[d.board.selected.i + 32*k].style.top  = d.style.top
+              d.board.pieces[j + 32*k].suicide()
             }
             d.board.selected.selected = undefined
             d.board.selected = undefined
