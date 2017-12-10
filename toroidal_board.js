@@ -19,6 +19,8 @@ class Board {
       this.quadrants[i].style.left = width/2 * (i%2)
       this.quadrants[i].style.top  = height/2 * Math.floor(i/2)
       this.quadrants[i].style.position = 'absolute'	
+      if (i !== 0)
+        this.quadrants[i].style.opacity = 0.65
       this.div.appendChild(this.quadrants[i])
       for (let rank = 0; rank < 8; ++rank) {
         for (let file = 0; file < 8; ++file) {
