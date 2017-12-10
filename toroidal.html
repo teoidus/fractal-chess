@@ -1,0 +1,66 @@
+<html>
+  <head>
+    <script src="toroidal_board.js"></script>
+    <input id="savestr" style="opacity:0"></input>
+  </head>
+  <body style="overflow:hidden">
+    <script>
+      let input = document.getElementById('savestr')
+      let ply = 0
+      let board = new Board(document.body.clientHeight, document.body.clientWidth)
+      document.body.appendChild(board.div)
+      let snapshots = [save()]
+      
+      function load(base64) {
+        document.body.removeChild(board.div)
+        board = new Board(document.body.clientHeight, document.body.clientWidth, [atob(base64)])
+        document.body.appendChild(board.div)
+      }
+
+      function save() {
+        return btoa(board.toString())
+      }
+
+      document.body.onkeydown = function(event) {
+        let newPly = 0
+        switch (event.keyCode) {
+          case 83: // S
+            input.value = save()
+            input.select()
+            document.execCommand('copy')
+            alert('Save string copied to clipboard.')
+            return false
+          case 76: // L
+            let s = prompt('Paste save string:', '')
+            if (s !== null && s !== '')
+              load(s)
+            return false
+          case 37: // left
+            console.log('left')
+            newPly = Math.max(ply - 1, 0)
+            console.log(ply, newPly)
+            if (newPly != ply) {
+              load(snapshots[newPly])
+              ply = newPly
+            }
+            return false
+          case 39: // right
+            newPly = Math.min(ply + 1, snapshots.length - 1)
+            console.log(ply, newPly)
+            if (newPly != ply) {
+              load(snapshots[newPly])
+              ply = newPly
+            }
+            return false
+        }
+      }
+
+      document.body.onclick = function() {
+        let snapshot = save()
+        if (snapshot !== snapshots[ply]) {
+          snapshots[++ply] = save()
+        }
+      }
+    </script>
+  </body>
+</html>
