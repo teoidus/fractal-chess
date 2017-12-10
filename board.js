@@ -5,6 +5,7 @@ let shades = ['rgb(240, 217, 181)', 'rgb(181, 136, 99)']
 class Board {
   constructor(height, width, depth = 0, stateRef = [undefined], flip = false, parent = undefined, top = 0, left = 0) {
     this.parent = parent
+    this.dead = false
     this.div = document.createElement('div')
     this.div.style.height = height
     this.div.style.width = width
@@ -16,11 +17,12 @@ class Board {
       self.focus()
       if (parent !== undefined) // focus parent piece, if it exists
         parent.focus()
+      
     }
     this.div.onmouseleave = function() {
       self.blur()
       if (parent !== undefined)
-        parent.blur()
+         parent.blur()
     }
 
     // populate root
@@ -126,16 +128,26 @@ class Board {
     // if not captured, handle various events
     if (d.dead === undefined) {
       d.focus = function(event) {
-        d.style.backgroundColor = HIGHLIGHT.HOVER
-        if (d.child !== undefined) // focus child board, if it exists
-          d.child.focus()
+        if (d.dead === undefined) {
+          d.style.backgroundColor = HIGHLIGHT.HOVER
+          if (d.child !== undefined) // focus child board, if it exists
+            d.child.focus()
+        }
       }
       d.blur = function(event) {
-        if (d.selected === undefined) {
-          d.style.backgroundColor = HIGHLIGHT.NONE
-          if (d.child !== undefined)
-            d.child.blur()
+        if (d.dead === undefined) {
+          if (d.selected === undefined) {
+            d.style.backgroundColor = HIGHLIGHT.NONE
+            if (d.child !== undefined)
+              d.child.blur()
+          }
         }
+      }
+      d.suicide = function() {
+        if (d.child !== undefined)
+          d.child.suicide()
+        d.board.div.removeChild(d)
+        d.dead = true
       }
       d.select = function(event) {
         if (d.selected !== undefined) {
@@ -147,11 +159,7 @@ class Board {
           d.board.selected.style.top  = d.style.top
           d.board.selected.selected = undefined
           d.board.selected = undefined
-          // kill off all children
-          if (d.child !== undefined)
-            d.child.suicide()
-          d.board.div.removeChild(d)
-          d.dead = true
+          d.suicide()
         } else {
           d.style.backgroundColor = HIGHLIGHT.SELECT
           d.selected = true
@@ -167,6 +175,8 @@ class Board {
   }
 
   focus() {
+    if (this.dead)
+      return
     for (let i = 0; i < this.squares.length; ++i)
       this.squares[i].style.opacity = OPACITY.LIT
     for (let i = 0; i < this.pieces.length; ++i)
@@ -174,6 +184,8 @@ class Board {
   }
 
   blur() {
+    if (this.dead)
+      return
     for (let i = 0; i < this.squares.length; ++i)
       this.squares[i].style.opacity = OPACITY.DIM
     for (let i = 0; i < this.pieces.length; ++i)
@@ -181,6 +193,7 @@ class Board {
   }
 
   suicide() {
+    this.dead = true
     this.div.style.opacity = OPACITY.DEAD
   }
 
